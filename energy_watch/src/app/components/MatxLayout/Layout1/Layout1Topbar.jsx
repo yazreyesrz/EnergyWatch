@@ -132,7 +132,7 @@ const Layout1Topbar = () => {
               <UserMenu>
                 <Hidden xsDown>
                   <Span>
-                    Hi <strong>{user.name}</strong>
+                    Hola <strong>{user.name}</strong>
                   </Span>
                 </Hidden>
                 <Avatar src={user.avatar} sx={{ cursor: "pointer" }} />
@@ -149,18 +149,18 @@ const Layout1Topbar = () => {
             <StyledItem>
               <Link to="/page-layouts/user-profile">
                 <Person />
-                <Span>Profile</Span>
+                <Span>Perfil</Span>
               </Link>
             </StyledItem>
 
             <StyledItem>
               <Settings />
-              <Span>Settings</Span>
+              <Span>Ajustes</Span>
             </StyledItem>
 
             <StyledItem onClick={logout}>
               <PowerSettingsNew />
-              <Span>Logout</Span>
+              <Span>Cerrar Sesion</Span>
             </StyledItem>
           </MatxMenu>
         </Box>

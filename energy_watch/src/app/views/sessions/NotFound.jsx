@@ -4,25 +4,25 @@ import { useNavigate } from "react-router-dom";
 // STYLED COMPONENTS
 const FlexBox = styled(Box)({
   display: "flex",
-  alignItems: "center"
+  alignItems: "center",
 });
 
 const JustifyBox = styled(FlexBox)({
   maxWidth: 320,
   flexDirection: "column",
-  justifyContent: "center"
+  justifyContent: "center",
 });
 
 const IMG = styled("img")({
   width: "100%",
-  marginBottom: "32px"
+  marginBottom: "32px",
 });
 
 const NotFoundRoot = styled(FlexBox)({
   width: "100%",
   alignItems: "center",
   justifyContent: "center",
-  height: "100vh !important"
+  height: "100vh !important",
 });
 
 export default function NotFound() {
@@ -37,8 +37,9 @@ export default function NotFound() {
           color="primary"
           variant="contained"
           sx={{ textTransform: "capitalize" }}
-          onClick={() => navigate(-1)}>
-          Go Back
+          onClick={() => navigate(-1)}
+        >
+          Volver
         </Button>
       </JustifyBox>
     </NotFoundRoot>

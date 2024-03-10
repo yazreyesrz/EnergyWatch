@@ -16,8 +16,8 @@ const SearchContainer = styled("div")(({ theme }) => ({
   background: theme.palette.primary.main,
   color: theme.palette.text.primary,
   "&::placeholder": {
-    color: theme.palette.text.primary
-  }
+    color: theme.palette.text.primary,
+  },
 }));
 
 const SearchInput = styled("input")(({ theme }) => ({
@@ -29,7 +29,7 @@ const SearchInput = styled("input")(({ theme }) => ({
   height: "calc(100% - 5px)",
   background: theme.palette.primary.main,
   color: theme.palette.text.primary,
-  "&::placeholder": { color: theme.palette.text.primary }
+  "&::placeholder": { color: theme.palette.text.primary },
 }));
 
 export default function MatxSearchBox() {
@@ -41,7 +41,7 @@ export default function MatxSearchBox() {
     <Fragment>
       {!open && (
         <IconButton onClick={toggle}>
-          <Icon sx={{ color: "text.primary" }}>search</Icon>
+          <Icon sx={{ color: "text.primary" }}>buscar</Icon>
         </IconButton>
       )}
 
@@ -49,7 +49,7 @@ export default function MatxSearchBox() {
         <SearchContainer>
           <SearchInput type="text" placeholder="Search here..." autoFocus />
           <IconButton onClick={toggle} sx={{ mx: 2, verticalAlign: "middle" }}>
-            <Icon sx={{ color: "text.primary" }}>close</Icon>
+            <Icon sx={{ color: "text.primary" }}>cerrar</Icon>
           </IconButton>
         </SearchContainer>
       )}

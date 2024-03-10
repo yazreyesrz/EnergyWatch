@@ -91,7 +91,8 @@ export default function JwtRegister() {
               <img
                 width="100%"
                 alt="Register"
-                src="/assets/images/illustrations/posting_photo.svg"
+                src="/assets/images/logos/logo-energywatch.png"
+                style={{ borderRadius: "10px" }}
               />
             </ContentBox>
           </Grid>

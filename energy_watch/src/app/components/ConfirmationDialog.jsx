@@ -6,20 +6,20 @@ const DialogBox = styled("div")(() => ({
   padding: "32px",
   textAlign: "center",
   marginLeft: "auto",
-  marginRight: "auto"
+  marginRight: "auto",
 }));
 
 const Title = styled("h4")(() => ({
   margin: 0,
   marginBottom: "8px",
-  textTransform: "capitalize"
+  textTransform: "capitalize",
 }));
 
 const Controller = styled("div")(() => ({
   margin: "8px",
   paddingTop: "8px",
   display: "flex",
-  justifyContent: "center"
+  justifyContent: "center",
 }));
 
 const StyledButton = styled(Button)(({ theme }) => ({
@@ -34,17 +34,17 @@ const StyledButton = styled(Button)(({ theme }) => ({
       color: "#ffffff",
       background: `${theme.palette.primary.main} !important`,
       backgroundColor: `${theme.palette.primary.main} !important`,
-      fallbacks: [{ color: "white !important" }]
-    }
+      fallbacks: [{ color: "white !important" }],
+    },
   },
   "&.noBtn": {
     "&:hover": {
       color: "#ffffff",
       background: `${theme.palette.secondary.main} !important`,
       backgroundColor: `${theme.palette.secondary.main} !important`,
-      fallbacks: [{ color: "white !important" }]
-    }
-  }
+      fallbacks: [{ color: "white !important" }],
+    },
+  },
 }));
 
 export default function ConfirmationDialog({
@@ -52,7 +52,7 @@ export default function ConfirmationDialog({
   text,
   onYesClick,
   onConfirmDialogClose,
-  title = "confirm"
+  title = "confirm",
 }) {
   return (
     <Dialog maxWidth="xs" open={open} onClose={onConfirmDialogClose}>
@@ -60,14 +60,20 @@ export default function ConfirmationDialog({
         <Title>{title}</Title>
         <p>{text}</p>
         <Controller>
-          <StyledButton className="yesBtn" variant="outlined" color="primary" onClick={onYesClick}>
-            Yes
+          <StyledButton
+            className="yesBtn"
+            variant="outlined"
+            color="primary"
+            onClick={onYesClick}
+          >
+            Si
           </StyledButton>
           <StyledButton
             className="noBtn"
             variant="outlined"
             color="secondary"
-            onClick={onConfirmDialogClose}>
+            onClick={onConfirmDialogClose}
+          >
             No
           </StyledButton>
         </Controller>

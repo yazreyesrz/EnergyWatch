@@ -94,9 +94,10 @@ export default function JwtLogin() {
           <Grid item sm={6} xs={12}>
             <div className="img-wrapper">
               <img
-                src="/assets/images/illustrations/dreamer.svg"
+                src="/assets/images/logos/logo-energywatch.png"
                 width="100%"
                 alt=""
+                style={{ borderRadius: "10px" }}
               />
             </div>
           </Grid>

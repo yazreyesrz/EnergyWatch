@@ -1,5 +1,13 @@
 import { Fragment, useState } from "react";
-import { Badge, Button, Drawer, IconButton, ThemeProvider, Box, styled } from "@mui/material";
+import {
+  Badge,
+  Button,
+  Drawer,
+  IconButton,
+  ThemeProvider,
+  Box,
+  styled,
+} from "@mui/material";
 import { Clear, KeyboardArrowDown, KeyboardArrowUp } from "@mui/icons-material";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 
@@ -14,7 +22,7 @@ const MiniCart = styled(Box)({
   height: "100%",
   display: "flex",
   flexDirection: "column",
-  width: sideNavWidth
+  width: sideNavWidth,
 });
 
 const CartBox = styled(Box)({
@@ -28,8 +36,8 @@ const CartBox = styled(Box)({
     marginTop: 0,
     marginBottom: 0,
     marginLeft: "16px",
-    fontWeight: "500"
-  }
+    fontWeight: "500",
+  },
 });
 
 const ProductBox = styled(Box)({
@@ -37,7 +45,7 @@ const ProductBox = styled(Box)({
   alignItems: "center",
   padding: "8px 8px",
   transition: "background 300ms ease",
-  "&:hover": { background: "rgba(0,0,0,0.01)" }
+  "&:hover": { background: "rgba(0,0,0,0.01)" },
 });
 
 const IMG = styled("img")({ width: 48 });
@@ -52,8 +60,8 @@ const ProductDetails = styled(Box)({
     textOverflow: "ellipsis",
     display: "block",
     width: 120,
-    marginBottom: "4px"
-  }
+    marginBottom: "4px",
+  },
 });
 
 const data = [
@@ -62,22 +70,22 @@ const data = [
     price: 987,
     title: "Bit Bass Headphone",
     id: "333sa680bdf4976dfgga21rt4",
-    imgUrl: "/assets/images/products/headphone-2.jpg"
+    imgUrl: "/assets/images/products/headphone-2.jpg",
   },
   {
     qty: 1,
     price: 454,
     title: "Bass Speaker 1",
     id: "323sa680b324976dfgga21rt47",
-    imgUrl: "/assets/images/products/speaker-2.jpg"
+    imgUrl: "/assets/images/products/speaker-2.jpg",
   },
   {
     qty: 1,
     price: 134,
     title: "Bass Speaker 2",
     id: "323sa680bdf4976dfgga21rt4",
-    imgUrl: "/assets/images/products/headphone-1.jpg"
-  }
+    imgUrl: "/assets/images/products/headphone-1.jpg",
+  },
 ];
 
 export default function ShoppingCart({ container }) {
@@ -91,17 +99,24 @@ export default function ShoppingCart({ container }) {
 
   const handleAddQty = (id) => {
     setCartList((state) =>
-      state.map((item) => (item.id === id ? { ...item, qty: item.qty + 1 } : item))
+      state.map((item) =>
+        item.id === id ? { ...item, qty: item.qty + 1 } : item
+      )
     );
   };
 
   const handleRemoveQty = (id) => {
     setCartList((state) =>
-      state.map((item) => (item.id === id ? { ...item, qty: item.qty - 1 } : item))
+      state.map((item) =>
+        item.id === id ? { ...item, qty: item.qty - 1 } : item
+      )
     );
   };
 
-  const totalCost = cartList.reduce((prev, curr) => prev + curr.qty * curr.price, 0);
+  const totalCost = cartList.reduce(
+    (prev, curr) => prev + curr.qty * curr.price,
+    0
+  );
 
   return (
     <Fragment>
@@ -118,7 +133,8 @@ export default function ShoppingCart({ container }) {
           variant="temporary"
           container={container}
           onClose={handleDrawerToggle}
-          ModalProps={{ keepMounted: true }}>
+          ModalProps={{ keepMounted: true }}
+        >
           <MiniCart>
             <CartBox>
               <ShoppingCartIcon color="primary" />
@@ -129,14 +145,18 @@ export default function ShoppingCart({ container }) {
               {cartList.map((product, i) => (
                 <ProductBox key={i}>
                   <Box mr="4px" display="flex" flexDirection="column">
-                    <IconButton size="small" onClick={() => handleAddQty(product.id)}>
+                    <IconButton
+                      size="small"
+                      onClick={() => handleAddQty(product.id)}
+                    >
                       <KeyboardArrowUp />
                     </IconButton>
 
                     <IconButton
                       onClick={() => handleRemoveQty(product.id)}
                       disabled={!(product.qty - 1)}
-                      size="small">
+                      size="small"
+                    >
                       <KeyboardArrowDown />
                     </IconButton>
                   </Box>
@@ -163,8 +183,9 @@ export default function ShoppingCart({ container }) {
               color="primary"
               variant="contained"
               onClick={handleCheckoutClick}
-              sx={{ width: "100%", borderRadius: 0 }}>
-              Checkout (${totalCost.toFixed(2)})
+              sx={{ width: "100%", borderRadius: 0 }}
+            >
+              Checar (${totalCost.toFixed(2)})
             </Button>
           </MiniCart>
         </Drawer>

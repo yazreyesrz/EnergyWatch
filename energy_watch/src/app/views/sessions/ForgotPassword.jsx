@@ -13,20 +13,20 @@ const StyledRoot = styled("div")(() => ({
   "& .card": {
     maxWidth: 800,
     margin: "1rem",
-    borderRadius: 12
+    borderRadius: 12,
   },
 
   ".img-wrapper": {
     display: "flex",
     padding: "2rem",
     alignItems: "center",
-    justifyContent: "center"
-  }
+    justifyContent: "center",
+  },
 }));
 
 const ContentBox = styled("div")(({ theme }) => ({
   padding: 32,
-  background: theme.palette.background.default
+  background: theme.palette.background.default,
 }));
 
 export default function ForgotPassword() {
@@ -43,7 +43,12 @@ export default function ForgotPassword() {
         <Grid container>
           <Grid item xs={12}>
             <div className="img-wrapper">
-              <img width="300" src="/assets/images/illustrations/dreamer.svg" alt="" />
+              <img
+                width="300"
+                src="/assets/images/logos/logo-energywatch.png"
+                alt=""
+                style={{ borderRadius: "10px" }}
+              />
             </div>
 
             <ContentBox>
@@ -59,8 +64,13 @@ export default function ForgotPassword() {
                   sx={{ mb: 3, width: "100%" }}
                 />
 
-                <Button fullWidth variant="contained" color="primary" type="submit">
-                  Reset Password
+                <Button
+                  fullWidth
+                  variant="contained"
+                  color="primary"
+                  type="submit"
+                >
+                  Cambiar Contrsena
                 </Button>
 
                 <Button
@@ -68,8 +78,9 @@ export default function ForgotPassword() {
                   color="primary"
                   variant="outlined"
                   onClick={() => navigate(-1)}
-                  sx={{ mt: 2 }}>
-                  Go Back
+                  sx={{ mt: 2 }}
+                >
+                  Volver
                 </Button>
               </form>
             </ContentBox>

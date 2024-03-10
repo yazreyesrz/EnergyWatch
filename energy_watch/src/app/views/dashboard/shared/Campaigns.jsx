@@ -5,25 +5,25 @@ import { MatxProgressBar, SimpleCard } from "app/components";
 export default function Campaigns() {
   return (
     <Box>
-      <SimpleCard title="Campaigns">
-        <Small color="text.secondary">Today</Small>
-        <MatxProgressBar value={75} color="primary" text="Google (102k)" />
-        <MatxProgressBar value={45} color="secondary" text="Twitter (40k)" />
-        <MatxProgressBar value={75} color="primary" text="Tensor (80k)" />
+      <SimpleCard title="Monitoreo">
+        <Small color="text.secondary">Hoy</Small>
+        <MatxProgressBar value={75} customColor="#FF8300" text="Temperatura" />
+        <MatxProgressBar value={45} color="secondary" text="Volataje " />
+        <MatxProgressBar value={75} color="primary" text="Electricidad " />
 
         <Small color="text.secondary" display="block" pt={4}>
-          Yesterday
+          Ayer
         </Small>
-        <MatxProgressBar value={75} color="primary" text="Google (102k)" />
-        <MatxProgressBar value={45} color="secondary" text="Twitter (40k)" />
-        <MatxProgressBar value={75} color="primary" text="Tensor (80k)" />
+        <MatxProgressBar value={75} customColor="#FF8300" text="Temperatura" />
+        <MatxProgressBar value={45} color="secondary" text="Volateje" />
+        <MatxProgressBar value={75} color="primary" text="Electricidad" />
 
         <Small color="text.secondary" display="block" pt={4}>
-          Yesterday
+          Semana pasada
         </Small>
-        <MatxProgressBar value={75} color="primary" text="Google (102k)" />
-        <MatxProgressBar value={45} color="secondary" text="Twitter (40k)" />
-        <MatxProgressBar value={75} color="primary" text="Tensor (80k)" />
+        <MatxProgressBar value={75} customColor="#FF8300" text="Temperatura" />
+        <MatxProgressBar value={45} color="secondary" text="Volateje" />
+        <MatxProgressBar value={75} color="primary" text="Electricidad" />
       </SimpleCard>
     </Box>
   );
