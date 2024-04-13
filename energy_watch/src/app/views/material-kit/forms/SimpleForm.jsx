@@ -9,7 +9,7 @@ import {
   Icon,
   Radio,
   RadioGroup,
-  styled
+  styled,
 } from "@mui/material";
 import { Span } from "app/components/Typography";
 import { useEffect, useState } from "react";
@@ -17,7 +17,7 @@ import { TextValidator, ValidatorForm } from "react-material-ui-form-validator";
 
 const TextField = styled(TextValidator)(() => ({
   width: "100%",
-  marginBottom: "16px"
+  marginBottom: "16px",
 }));
 
 const SimpleForm = () => {
@@ -44,17 +44,7 @@ const SimpleForm = () => {
 
   const handleDateChange = (date) => setState({ ...state, date });
 
-  const {
-    username,
-    firstName,
-    creditCard,
-    mobile,
-    password,
-    confirmPassword,
-    gender,
-    date,
-    email
-  } = state;
+  const { carrera, edificio, seccion, fecha } = state;
 
   return (
     <div>
@@ -63,128 +53,54 @@ const SimpleForm = () => {
           <Grid item lg={6} md={6} sm={12} xs={12} sx={{ mt: 2 }}>
             <TextField
               type="text"
-              name="username"
+              name="carrera"
               id="standard-basic"
-              value={username || ""}
+              value={carrera || ""}
               onChange={handleChange}
-              errorMessages={["this field is required"]}
-              label="Username (Min length 4, Max length 9)"
-              validators={["required", "minStringLength: 4", "maxStringLength: 9"]}
+              errorMessages={["este campo es obligatorio"]}
+              label="Carrera"
             />
 
             <TextField
               type="text"
-              name="firstName"
-              label="First Name"
+              name="edificio"
+              label="Edificio"
               onChange={handleChange}
-              value={firstName || ""}
-              validators={["required"]}
-              errorMessages={["this field is required"]}
+              value={edificio || ""}
+              validators={["requerido"]}
+              errorMessages={["este campo es obligatorio"]}
             />
 
             <TextField
-              type="email"
-              name="email"
-              label="Email"
-              value={email || ""}
+              type="text"
+              name="seccion"
+              label="Seccion"
+              value={seccion || ""}
               onChange={handleChange}
-              validators={["required", "isEmail"]}
-              errorMessages={["this field is required", "email is not valid"]}
+              validators={["requerido"]}
+              errorMessages={["este campo es obligatorio"]}
             />
 
             <LocalizationProvider dateAdapter={AdapterDateFns}>
               <DatePicker
-                value={date}
+                value={fecha}
                 onChange={handleDateChange}
                 renderInput={(props) => (
                   <TextField
                     {...props}
-                    label="Date picker"
+                    label="Seleccionar fecha"
                     id="mui-pickers-date"
                     sx={{ mb: 2, width: "100%" }}
                   />
                 )}
               />
             </LocalizationProvider>
-
-            <TextField
-              sx={{ mb: 4 }}
-              type="number"
-              name="creditCard"
-              label="Credit Card"
-              onChange={handleChange}
-              value={creditCard || ""}
-              errorMessages={["this field is required"]}
-              validators={["required", "minStringLength:16", "maxStringLength: 16"]}
-            />
-          </Grid>
-
-          <Grid item lg={6} md={6} sm={12} xs={12} sx={{ mt: 2 }}>
-            <TextField
-              type="text"
-              name="mobile"
-              value={mobile || ""}
-              label="Mobile Nubmer"
-              onChange={handleChange}
-              validators={["required"]}
-              errorMessages={["this field is required"]}
-            />
-            <TextField
-              name="password"
-              type="password"
-              label="Password"
-              value={password || ""}
-              onChange={handleChange}
-              validators={["required"]}
-              errorMessages={["this field is required"]}
-            />
-            <TextField
-              type="password"
-              name="confirmPassword"
-              onChange={handleChange}
-              label="Confirm Password"
-              value={confirmPassword || ""}
-              validators={["required", "isPasswordMatch"]}
-              errorMessages={["this field is required", "password didn't match"]}
-            />
-            <RadioGroup
-              row
-              name="gender"
-              sx={{ mb: 2 }}
-              value={gender || ""}
-              onChange={handleChange}>
-              <FormControlLabel
-                value="Male"
-                label="Male"
-                labelPlacement="end"
-                control={<Radio color="secondary" />}
-              />
-
-              <FormControlLabel
-                value="Female"
-                label="Female"
-                labelPlacement="end"
-                control={<Radio color="secondary" />}
-              />
-
-              <FormControlLabel
-                value="Others"
-                label="Others"
-                labelPlacement="end"
-                control={<Radio color="secondary" />}
-              />
-            </RadioGroup>
-
-            <FormControlLabel
-              control={<Checkbox />}
-              label="I have read and agree to the terms of service."
-            />
           </Grid>
         </Grid>
 
         <Button color="primary" variant="contained" type="submit">
           <Icon>send</Icon>
-          <Span sx={{ pl: 1, textTransform: "capitalize" }}>Submit</Span>
+          <Span sx={{ pl: 1, textTransform: "capitalize" }}>Gaurdar</Span>
         </Button>
       </ValidatorForm>
     </div>

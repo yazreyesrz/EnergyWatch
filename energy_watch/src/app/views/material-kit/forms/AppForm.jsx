@@ -10,19 +10,24 @@ const Container = styled("div")(({ theme }) => ({
   [theme.breakpoints.down("sm")]: { margin: "16px" },
   "& .breadcrumb": {
     marginBottom: "30px",
-    [theme.breakpoints.down("sm")]: { marginBottom: "16px" }
-  }
+    [theme.breakpoints.down("sm")]: { marginBottom: "16px" },
+  },
 }));
 
 export default function AppForm() {
   return (
     <Container>
       <Box className="breadcrumb">
-        <Breadcrumb routeSegments={[{ name: "Material", path: "/material" }, { name: "Form" }]} />
+        <Breadcrumb
+          routeSegments={[
+            { name: "Material", path: "/material" },
+            { name: "Form" },
+          ]}
+        />
       </Box>
 
       <Stack spacing={3}>
-        <SimpleCard title="Simple Form">
+        <SimpleCard title="Crear Edificio">
           <SimpleForm />
         </SimpleCard>
 
