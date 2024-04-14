@@ -1,19 +1,8 @@
-import { DatePicker } from "@mui/lab";
-import AdapterDateFns from "@mui/lab/AdapterDateFns";
-import LocalizationProvider from "@mui/lab/LocalizationProvider";
-import {
-  Button,
-  Checkbox,
-  FormControlLabel,
-  Grid,
-  Icon,
-  Radio,
-  RadioGroup,
-  styled,
-} from "@mui/material";
+import { Button, Grid, Icon, styled } from "@mui/material";
 import { Span } from "app/components/Typography";
 import { useEffect, useState } from "react";
 import { TextValidator, ValidatorForm } from "react-material-ui-form-validator";
+import axios from "axios"; // Asegúrate de importar axios
 
 const TextField = styled(TextValidator)(() => ({
   width: "100%",
@@ -21,30 +10,42 @@ const TextField = styled(TextValidator)(() => ({
 }));
 
 const SimpleForm = () => {
-  const [state, setState] = useState({ date: new Date() });
+  const [state, setState] = useState({
+    ubicacion: "",
+    nombre: "",
+    seccion: "",
+  });
 
   useEffect(() => {
     ValidatorForm.addValidationRule("isPasswordMatch", (value) => {
       if (value !== state.password) return false;
-
       return true;
     });
     return () => ValidatorForm.removeValidationRule("isPasswordMatch");
   }, [state.password]);
 
-  const handleSubmit = (event) => {
-    // console.log("submitted");
-    // console.log(event);
+  const handleSubmit = async (event) => {
+    event.preventDefault(); // Prevenir el comportamiento por defecto del formulario
+    try {
+      const response = await axios.post("http://localhost:4000/edificios/one", {
+        carrera: state.ubicacion,
+        nombre: state.nombre,
+        seccion: state.seccion,
+      });
+      console.log("Registro exitoso:", response.data);
+      alert("Registro exitoso");
+      // Puedes limpiar el formulario o redirigir al usuario
+    } catch (error) {
+      console.error("Error al registrar el edificio:", error);
+    }
   };
 
   const handleChange = (event) => {
     event.persist();
-    setState({ ...state, [event.target.name]: event.target.value });
+    setState((prev) => ({ ...prev, [event.target.name]: event.target.value }));
   };
 
-  const handleDateChange = (date) => setState({ ...state, date });
-
-  const { carrera, edificio, seccion, fecha } = state;
+  const { ubicacion, nombre, seccion } = state;
 
   return (
     <div>
@@ -53,54 +54,39 @@ const SimpleForm = () => {
           <Grid item lg={6} md={6} sm={12} xs={12} sx={{ mt: 2 }}>
             <TextField
               type="text"
-              name="carrera"
+              name="ubicacion"
               id="standard-basic"
-              value={carrera || ""}
+              value={ubicacion}
               onChange={handleChange}
-              errorMessages={["este campo es obligatorio"]}
-              label="Carrera"
+              errorMessages={["Este campo es obligatorio"]}
+              label="Ubicacion"
             />
 
             <TextField
               type="text"
-              name="edificio"
-              label="Edificio"
+              name="nombre"
+              label="Nombre del Edificio"
               onChange={handleChange}
-              value={edificio || ""}
-              validators={["requerido"]}
-              errorMessages={["este campo es obligatorio"]}
+              value={nombre}
+              validators={["required"]}
+              errorMessages={["Este campo es obligatorio"]}
             />
 
             <TextField
-              type="text"
+              type="number"
               name="seccion"
-              label="Seccion"
-              value={seccion || ""}
+              label="Sección"
+              value={seccion}
               onChange={handleChange}
-              validators={["requerido"]}
-              errorMessages={["este campo es obligatorio"]}
+              validators={["required"]}
+              errorMessages={["Este campo es obligatorio"]}
             />
-
-            <LocalizationProvider dateAdapter={AdapterDateFns}>
-              <DatePicker
-                value={fecha}
-                onChange={handleDateChange}
-                renderInput={(props) => (
-                  <TextField
-                    {...props}
-                    label="Seleccionar fecha"
-                    id="mui-pickers-date"
-                    sx={{ mb: 2, width: "100%" }}
-                  />
-                )}
-              />
-            </LocalizationProvider>
           </Grid>
         </Grid>
 
         <Button color="primary" variant="contained" type="submit">
           <Icon>send</Icon>
-          <Span sx={{ pl: 1, textTransform: "capitalize" }}>Gaurdar</Span>
+          <Span sx={{ pl: 1, textTransform: "capitalize" }}>Registrar</Span>
         </Button>
       </ValidatorForm>
     </div>

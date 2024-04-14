@@ -56,11 +56,11 @@ const initialValues = {
 // form field validation schema
 const validationSchema = Yup.object().shape({
   password: Yup.string()
-    .min(6, "Password must be 6 character length")
-    .required("Password is required!"),
+    .min(6, "La contraseña debe de ser de al menos 6 caracteres")
+    .required("La contraseña es requerida!"),
   email: Yup.string()
-    .email("Invalid Email address")
-    .required("Email is required!"),
+    .email("Dirección de correo electrónico no válida")
+    .required("El correo electrónico es requerido!"),
 });
 
 export default function JwtRegister() {
@@ -74,10 +74,12 @@ export default function JwtRegister() {
 
     try {
       register(values.email, values.username, values.password);
+      alert("Usuario registrado con exito!");
       navigate("/");
       setLoading(false);
     } catch (e) {
       console.log(e);
+      alert("Error al registrar el usuario!");
       setLoading(false);
     }
   };
