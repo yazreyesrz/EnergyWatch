@@ -1,8 +1,33 @@
+import { useEffect, useState } from "react";
 import { useTheme } from "@mui/material/styles";
 import ReactEcharts from "echarts-for-react";
+import io from "socket.io-client";
 
-export default function LineChart({ height, color = [] }) {
+export default function LineChart({ height }) {
   const theme = useTheme();
+  const [data, setData] = useState({
+    voltaje: [],
+    temperatura: [],
+    corriente: [],
+  });
+
+  useEffect(() => {
+    const socket = io("http://localhost:5555"); // Cambia esto por la URL de tu servidor WebSocket
+    socket.on("IncomingData", (msg) => {
+      const { topic, message } = msg;
+      setData((prevData) => ({
+        ...prevData,
+        [topic.split("/")[1]]: [
+          ...prevData[topic.split("/")[1]],
+          parseFloat(message),
+        ],
+      }));
+    });
+
+    return () => {
+      socket.disconnect();
+    };
+  }, []);
 
   const option = {
     grid: { top: "10%", bottom: "10%", left: "5%", right: "5%" },
@@ -12,55 +37,60 @@ export default function LineChart({ height, color = [] }) {
       textStyle: {
         fontSize: 13,
         color: theme.palette.text.secondary,
-        fontFamily: theme.typography.fontFamily
-      }
-    },
-    label: {
-      fontSize: 13,
-      color: theme.palette.text.secondary,
-      fontFamily: theme.typography.fontFamily
+        fontFamily: theme.typography.fontFamily,
+      },
     },
     xAxis: {
       type: "category",
-      data: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+      data: data.voltaje.map((_, index) => index),
       axisLine: { show: false },
       axisTick: { show: false },
       axisLabel: {
         fontSize: 14,
         fontFamily: "roboto",
-        color: theme.palette.text.secondary
-      }
+        color: theme.palette.text.secondary,
+      },
     },
     yAxis: {
       type: "value",
       axisLine: { show: false },
       axisTick: { show: false },
       splitLine: {
-        lineStyle: { color: theme.palette.text.secondary, opacity: 0.15 }
+        lineStyle: { color: theme.palette.text.secondary, opacity: 0.15 },
       },
-      axisLabel: { color: theme.palette.text.secondary, fontSize: 13, fontFamily: "roboto" }
+      axisLabel: {
+        color: theme.palette.text.secondary,
+        fontSize: 13,
+        fontFamily: "roboto",
+      },
     },
     series: [
       {
-        data: [30, 40, 20, 50, 40, 80, 90],
+        data: data.voltaje,
         type: "line",
-        stack: "This month",
-        name: "This month",
+        name: "Voltaje",
         smooth: true,
         symbolSize: 4,
-        lineStyle: { width: 4 }
+        lineStyle: { width: 4 },
       },
       {
-        data: [20, 50, 15, 50, 30, 70, 95],
+        data: data.temperatura,
         type: "line",
-        stack: "Last month",
-        name: "Last month",
+        name: "Temperatura",
         smooth: true,
         symbolSize: 4,
-        lineStyle: { width: 4 }
-      }
-    ]
+        lineStyle: { width: 4 },
+      },
+      {
+        data: data.corriente,
+        type: "line",
+        name: "Corriente",
+        smooth: true,
+        symbolSize: 4,
+        lineStyle: { width: 4 },
+      },
+    ],
   };
 
-  return <ReactEcharts style={{ height: height }} option={{ ...option, color: [...color] }} />;
+  return <ReactEcharts style={{ height: height }} option={option} />;
 }
