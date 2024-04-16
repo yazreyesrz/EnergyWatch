@@ -66,22 +66,6 @@ export default function LineChart({ height }) {
     },
     series: [
       {
-        data: data.voltaje,
-        type: "line",
-        name: "Voltaje",
-        smooth: true,
-        symbolSize: 4,
-        lineStyle: { width: 4 },
-      },
-      {
-        data: data.temperatura,
-        type: "line",
-        name: "Temperatura",
-        smooth: true,
-        symbolSize: 4,
-        lineStyle: { width: 4 },
-      },
-      {
         data: data.corriente,
         type: "line",
         name: "Corriente",

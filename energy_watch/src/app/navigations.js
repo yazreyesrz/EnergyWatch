@@ -1,5 +1,5 @@
 export const navigations = [
-  { name: "Panel principal", path: "/dashboard/default", icon: "dashboard" },
+  { name: "Home", path: "/dashboard/default", icon: "dashboard" },
   // { label: "PAGES", type: "label" },
   // {
   //   name: "Session/Auth",
@@ -16,7 +16,7 @@ export const navigations = [
   //   ],
   // },
   // { label: "Components", type: "label" },
-  { name: "Formulario", path: "/material/form", iconText: "F" },
+  { name: "Agregar Edificio", path: "/material/form", iconText: "AE" },
   // {
   //   name: "Components",
   //   icon: "favorite",
@@ -38,7 +38,9 @@ export const navigations = [
   //     // { name: "Table", path: "/material/table", iconText: "T" }
   //   ],
   // },
-  { name: "Graficas", path: "/charts/echarts", iconText: "E" },
+  { name: "Temperatura", path: "/charts/echarts", iconText: "T" },
+  { name: "Voltaje", path: "/charts/echartsV", iconText: "V" },
+  { name: "Corriente", path: "/charts/echartsC", iconText: "C" },
   // {
   //   name: "Charts",
   //   icon: "trending_up",
