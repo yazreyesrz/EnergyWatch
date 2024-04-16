@@ -1,8 +1,8 @@
-import { Button, Grid, Icon, styled } from "@mui/material";
+import { Button, Grid, Icon, MenuItem, styled } from "@mui/material";
 import { Span } from "app/components/Typography";
 import { useEffect, useState } from "react";
 import { TextValidator, ValidatorForm } from "react-material-ui-form-validator";
-import axios from "axios"; // Asegúrate de importar axios
+import axios from "axios";
 
 const TextField = styled(TextValidator)(() => ({
   width: "100%",
@@ -24,17 +24,20 @@ const SimpleForm = () => {
     return () => ValidatorForm.removeValidationRule("isPasswordMatch");
   }, [state.password]);
 
+  const opcionesUbicacion = ["IDS", "BIOMEDICA", "Carrera C"]; // Ejemplo de opciones para Ubicacion
+  const opcionesEdificio = ["UD1", "Edificio Y", "Edificio Z"]; // Ejemplo de opciones para Nombre del Edificio
+
   const handleSubmit = async (event) => {
-    event.preventDefault(); // Prevenir el comportamiento por defecto del formulario
+    event.preventDefault();
     try {
       const response = await axios.post("http://localhost:4000/edificios/one", {
-        carrera: state.ubicacion,
+        ubicacion: state.ubicacion,
         nombre: state.nombre,
         seccion: state.seccion,
       });
       console.log("Registro exitoso:", response.data);
       alert("Registro exitoso");
-      // Puedes limpiar el formulario o redirigir al usuario
+      setState({ ubicacion: "", nombre: "", seccion: "" }); // Limpiar el formulario después del envío
     } catch (error) {
       console.error("Error al registrar el edificio:", error);
     }
@@ -53,24 +56,36 @@ const SimpleForm = () => {
         <Grid container spacing={6}>
           <Grid item lg={6} md={6} sm={12} xs={12} sx={{ mt: 2 }}>
             <TextField
-              type="text"
-              name="ubicacion"
-              id="standard-basic"
+              select
+              name="carrera"
+              label="Carrera"
               value={ubicacion}
               onChange={handleChange}
-              errorMessages={["Este campo es obligatorio"]}
-              label="Ubicacion"
-            />
-
-            <TextField
-              type="text"
-              name="nombre"
-              label="Nombre del Edificio"
-              onChange={handleChange}
-              value={nombre}
               validators={["required"]}
               errorMessages={["Este campo es obligatorio"]}
-            />
+            >
+              {opcionesUbicacion.map((option) => (
+                <MenuItem key={option} value={option}>
+                  {option}
+                </MenuItem>
+              ))}
+            </TextField>
+
+            <TextField
+              select
+              name="nombre"
+              label="Nombre del Edificio"
+              value={nombre}
+              onChange={handleChange}
+              validators={["required"]}
+              errorMessages={["Este campo es obligatorio"]}
+            >
+              {opcionesEdificio.map((option) => (
+                <MenuItem key={option} value={option}>
+                  {option}
+                </MenuItem>
+              ))}
+            </TextField>
 
             <TextField
               type="number"

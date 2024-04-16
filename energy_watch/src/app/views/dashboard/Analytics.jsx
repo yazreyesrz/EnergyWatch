@@ -4,7 +4,7 @@ import RowCards from "./shared/RowCards";
 import StatCards from "./shared/StatCards";
 import Campaigns from "./shared/Campaigns";
 import StatCards2 from "./shared/StatCards2";
-import LineChart from "../charts/echarts/LineChart";
+import LineChart from "../charts/echarts/LineChartC";
 import UpgradeCard from "./shared/UpgradeCard";
 import TopSellingTable from "./shared/TopSellingTable";
 import io from "socket.io-client";
