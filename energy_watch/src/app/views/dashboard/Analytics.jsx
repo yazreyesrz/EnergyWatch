@@ -108,9 +108,6 @@ export default function Analytics() {
             <StatCards />
             <TopSellingTable />
             <StatCards2 />
-
-            <H4>Graficos en tiempo real</H4>
-            <LineChartGeneral height="550px" />
           </Grid>
 
           <Grid item lg={4} md={4} sm={12} xs={12}>

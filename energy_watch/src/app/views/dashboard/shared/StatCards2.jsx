@@ -1,48 +1,67 @@
-import { ExpandLess, StarOutline, TrendingUp } from "@mui/icons-material";
-import { Card, Fab, Grid, lighten, styled, useTheme } from "@mui/material";
+import React from "react";
+import jsPDF from "jspdf";
+import html2canvas from "html2canvas";
+import LineChartGeneral from "app/views/charts/echarts/LineChartGeneral";
 
-// STYLED COMPONENTS
-const ContentBox = styled("div")(() => ({
-  display: "flex",
-  flexWrap: "wrap",
-  alignItems: "center",
-}));
+const PrintToPDF = () => {
+  const handlePrint = () => {
+    const input = document.getElementById("content-to-print");
 
-const FabIcon = styled(Fab)(() => ({
-  width: "44px !important",
-  height: "44px !important",
-  boxShadow: "none !important",
-}));
+    html2canvas(input)
+      .then((canvas) => {
+        const imgData = canvas.toDataURL("image/png");
+        const pdf = new jsPDF();
+        const imgWidth = 210; // Ancho de la página A4 en mm
+        const imgHeight = (canvas.height * imgWidth) / canvas.width;
 
-const H3 = styled("h3")(() => ({
-  margin: 0,
-  fontWeight: "500",
-  marginLeft: "12px",
-}));
+        pdf.addImage(imgData, "PNG", 0, 0, imgWidth, imgHeight);
+        pdf.save("grafica.pdf");
+      })
+      .catch((error) => {
+        console.error("Error al generar PDF:", error);
+      });
+  };
 
-const H1 = styled("h1")(({ theme }) => ({
-  margin: 0,
-  flexGrow: 1,
-  color: theme.palette.text.secondary,
-}));
+  // Función para obtener la fecha actual en formato legible
+  const getCurrentDate = () => {
+    const currentDate = new Date();
+    const formattedDate = `${currentDate.getDate()}/${
+      currentDate.getMonth() + 1
+    }/${currentDate.getFullYear()}`;
+    return formattedDate;
+  };
 
-const Span = styled("span")(() => ({
-  fontSize: "13px",
-  marginLeft: "4px",
-}));
+  return (
+    <div>
+      <button
+        onClick={handlePrint}
+        style={{
+          padding: "10px 20px",
+          fontSize: "16px",
+          backgroundColor: "#333c87",
+          color: "#fff",
+          border: "none",
+          borderRadius: "5px",
+          cursor: "pointer",
+          boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.2)",
+          transition: "background-color 0.3s ease", // Transición suave para el color de fondo
+        }}
+        // Estilos adicionales para el efecto hover
+        onMouseOver={(e) => {
+          e.target.style.backgroundColor = "#007bff"; // Cambia el color de fondo al pasar el cursor
+        }}
+        onMouseOut={(e) => {
+          e.target.style.backgroundColor = "#333c87"; // Restaura el color de fondo al quitar el cursor
+        }}
+      >
+        Generar PDF
+      </button>
+      <div id="content-to-print">
+        <p>Fecha: {getCurrentDate()}</p>
+        <LineChartGeneral height="550px" />
+      </div>
+    </div>
+  );
+};
 
-const IconBox = styled("div")(() => ({
-  width: 16,
-  height: 16,
-  color: "#fff",
-  display: "flex",
-  overflow: "hidden",
-  borderRadius: "300px ",
-  justifyContent: "center",
-  "& .icon": { fontSize: "14px" },
-}));
-
-export default function StatCards2() {
-  const { palette } = useTheme();
-  const bgError = lighten(palette.error.main, 0.85);
-}
+export default PrintToPDF;
