@@ -11,21 +11,31 @@ const TextField = styled(TextValidator)(() => ({
 
 const SimpleForm = () => {
   const [state, setState] = useState({
-    ubicacion: "",
+    ubicacion: "", // Cambié el nombre del estado de 'ubicacion' a 'carrera'
     nombre: "",
     seccion: "",
   });
 
-  useEffect(() => {
-    ValidatorForm.addValidationRule("isPasswordMatch", (value) => {
-      if (value !== state.password) return false;
-      return true;
-    });
-    return () => ValidatorForm.removeValidationRule("isPasswordMatch");
-  }, [state.password]);
-
-  const opcionesUbicacion = ["IDS", "BIOMEDICA", "Carrera C"]; // Ejemplo de opciones para Ubicacion
-  const opcionesEdificio = ["UD1", "Edificio Y", "Edificio Z"]; // Ejemplo de opciones para Nombre del Edificio
+  const opcionesUbicacion = [
+    "IDS",
+    "BIOMEDICA",
+    "MECATRONICA",
+    "PETROLERA",
+    "ENERGIAS",
+    " LAGE",
+    "AGRO",
+    "MANOFACTURA",
+    "AMBIENTAL",
+    "AMBIENTAL",
+  ]; // Ejemplo de opciones para Ubicacion
+  const opcionesEdificio = [
+    "UD1",
+    "UD2",
+    " UD3",
+    "UD4",
+    "BIBLIOTECA",
+    "LABORATORIO",
+  ]; // Ejemplo de opciones para Nombre del Edificio
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -44,8 +54,8 @@ const SimpleForm = () => {
   };
 
   const handleChange = (event) => {
-    event.persist();
-    setState((prev) => ({ ...prev, [event.target.name]: event.target.value }));
+    const { name, value } = event.target;
+    setState((prev) => ({ ...prev, [name]: value }));
   };
 
   const { ubicacion, nombre, seccion } = state;
@@ -57,7 +67,7 @@ const SimpleForm = () => {
           <Grid item lg={6} md={6} sm={12} xs={12} sx={{ mt: 2 }}>
             <TextField
               select
-              name="carrera"
+              name="ubicacion"
               label="Carrera"
               value={ubicacion}
               onChange={handleChange}

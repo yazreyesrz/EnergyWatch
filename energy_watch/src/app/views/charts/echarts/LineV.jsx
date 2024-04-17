@@ -73,7 +73,7 @@ export default function LineChart({ height }) {
         symbolSize: 4,
         lineStyle: { width: 4 },
       },
-      // {
+      // \{
       //   data: data.temperatura,
       //   type: "line",
       //   name: "Temp",

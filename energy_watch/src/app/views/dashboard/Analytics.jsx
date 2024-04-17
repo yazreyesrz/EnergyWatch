@@ -1,15 +1,14 @@
 import { Fragment, useEffect, useState } from "react";
 import { Card, Grid, styled, useTheme } from "@mui/material";
-import RowCards from "./shared/RowCards";
 import StatCards from "./shared/StatCards";
-import Campaigns from "./shared/Campaigns";
-import StatCards2 from "./shared/StatCards2";
-import LineChart from "../charts/echarts/LineChartC";
-import UpgradeCard from "./shared/UpgradeCard";
 import TopSellingTable from "./shared/TopSellingTable";
+import StatCards2 from "./shared/StatCards2";
+import LineChartGeneral from "../charts/echarts/LineChartGeneral";
+import UpgradeCard from "./shared/UpgradeCard";
+import Campaigns from "./shared/Campaigns";
+import axios from "axios";
 import io from "socket.io-client";
 
-// STYLED COMPONENTS
 const ContentBox = styled("div")(({ theme }) => ({
   margin: "30px",
   [theme.breakpoints.down("sm")]: { margin: "16px" },
@@ -37,13 +36,12 @@ const H4 = styled("h4")(({ theme }) => ({
 
 export default function Analytics() {
   const { palette } = useTheme();
-
-  const socket = io("http://localhost:5555"); // Asegúrate de cambiar la URL por la de tu servidor WebSocket.
-
+  const socket = io("http://localhost:5555");
   const [data, setData] = useState({
     voltaje: "",
     temperatura: "",
     corriente: "",
+    alertaTemperatura: false,
   });
 
   useEffect(() => {
@@ -56,6 +54,12 @@ export default function Analytics() {
           break;
         case "casa/temperatura":
           setData((prev) => ({ ...prev, temperatura: message }));
+          if (message > 45) {
+            setData((prev) => ({ ...prev, alertaTemperatura: true }));
+            sendAlertEmail();
+          } else {
+            setData((prev) => ({ ...prev, alertaTemperatura: false }));
+          }
           break;
         case "casa/corriente":
           setData((prev) => ({ ...prev, corriente: message }));
@@ -70,6 +74,32 @@ export default function Analytics() {
     };
   }, []);
 
+  useEffect(() => {
+    const user = localStorage.getItem("user");
+    console.log("User from localStorage:", user);
+    const parsedUser = JSON.parse(user);
+    // Resto del código...
+  }, []);
+
+  const sendAlertEmail = async () => {
+    try {
+      const user = localStorage.getItem("user");
+      if (!user) {
+        throw new Error("User data not found in localStorage.");
+      }
+      const { nombre, correo } = JSON.parse(user);
+      console.log(nombre, correo);
+      await axios.post("http://localhost:4000/usuarios/mail", {
+        user: nombre,
+        to: correo,
+      });
+
+      console.log("Alert email sent successfully.");
+    } catch (error) {
+      console.error("Error sending alert email:", error);
+    }
+  };
+
   return (
     <Fragment>
       <ContentBox className="analytics">
@@ -81,21 +111,32 @@ export default function Analytics() {
 
             <H4>Graficos en tiempo real</H4>
 
-            <LineChart height="550px" />
+            <LineChartGeneral height="550px" />
             {/* Mostrando datos */}
             <H4>Voltaje: {data.voltaje}V</H4>
             <H4>Temperatura: {data.temperatura}°C</H4>
             <H4>Corriente: {data.corriente}A</H4>
+
+            {/* Mostrar alerta de sobrecalentamiento si es necesario */}
+            {data.alertaTemperatura && (
+              <Card
+                sx={{
+                  px: 3,
+                  py: 2,
+                  mb: 3,
+                  backgroundColor: palette.error.light,
+                }}
+              >
+                <Title>¡Alerta de Sobrecalentamiento!</Title>
+                <SubTitle>La temperatura ha alcanzado más de 45°C.</SubTitle>
+                <SubTitle>
+                  ¡Por favor, toma acciones para evitar problemas!
+                </SubTitle>
+              </Card>
+            )}
           </Grid>
 
           <Grid item lg={4} md={4} sm={12} xs={12}>
-            <Card sx={{ px: 3, py: 2, mb: 3 }}>
-              <Title>Grafica de Monitoreo</Title>
-              <SubTitle>Tiempo real</SubTitle>
-
-              {/* <LineChart height="550px" /> */}
-            </Card>
-
             <UpgradeCard />
             <Campaigns />
           </Grid>

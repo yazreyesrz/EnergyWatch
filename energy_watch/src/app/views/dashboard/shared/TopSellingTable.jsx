@@ -1,4 +1,4 @@
-import { Edit } from "@mui/icons-material";
+import { useEffect, useState } from "react";
 import { format } from "date-fns";
 import {
   Box,
@@ -6,15 +6,17 @@ import {
   Table,
   Select,
   Avatar,
-  styled,
   TableRow,
-  useTheme,
-  MenuItem,
-  TableBody,
   TableCell,
   TableHead,
+  TableBody,
   IconButton,
+  MenuItem,
+  styled,
+  useTheme,
 } from "@mui/material";
+import { Edit } from "@mui/icons-material";
+import axios from "axios";
 import { Paragraph } from "app/components/Typography";
 
 // STYLED COMPONENTS
@@ -57,21 +59,32 @@ const Small = styled("small")(({ bgcolor }) => ({
   boxShadow: "0 0 2px 0 rgba(0, 0, 0, 0.12), 0 2px 2px 0 rgba(0, 0, 0, 0.24)",
 }));
 
-export default function TopSellingTable() {
+const TopSellingTable = () => {
   const { palette } = useTheme();
   const bgError = palette.error.main;
   const bgPrimary = palette.primary.main;
   const bgSecondary = palette.secondary.main;
 
+  const [productList, setProductList] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get("http://localhost:4000/edificios/all");
+        const edificios = response.data.edificio;
+        setProductList(edificios);
+      } catch (error) {
+        console.error("Error al obtener los datos de los edificios:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   return (
     <Card elevation={3} sx={{ pt: "20px", mb: 3 }}>
       <CardHeader>
         <Title>Edificios</Title>
-        <Select size="small" defaultValue="this_month">
-          <MenuItem value="this_month">Esta Semana</MenuItem>
-          <MenuItem value="this_month">Este Mes</MenuItem>
-          <MenuItem value="this_month">Este Dia</MenuItem>
-        </Select>
       </CardHeader>
 
       <Box overflow="auto">
@@ -81,59 +94,37 @@ export default function TopSellingTable() {
               <TableCell colSpan={4} sx={{ px: 3 }}>
                 Nombre
               </TableCell>
-
               <TableCell colSpan={2} sx={{ px: 0 }}>
-                Dias
+                Sección
               </TableCell>
-
               <TableCell colSpan={2} sx={{ px: 0 }}>
-                Estatus
-              </TableCell>
-
-              <TableCell colSpan={1} sx={{ px: 0 }}>
-                Editar
+                Carrera
               </TableCell>
             </TableRow>
           </TableHead>
 
           <TableBody>
             {productList.map((product, index) => (
-              <TableRow key={index} hover>
+              <TableRow key={product._id} hover>
                 <TableCell
                   colSpan={4}
                   align="left"
                   sx={{ px: 0, textTransform: "capitalize" }}
                 >
                   <Box display="flex" alignItems="center" gap={4}>
-                    <Avatar src={product.imgUrl} />
-                    <Paragraph>{product.name}</Paragraph>
+                    <Avatar src={`/assets/images/products/iconEdificio.png`} />
+                    <Paragraph>{product.nombre}</Paragraph>
                   </Box>
                 </TableCell>
-
                 <TableCell
                   colSpan={2}
                   align="left"
                   sx={{ px: 0, textTransform: "capitalize" }}
                 >
-                  {format(product.Date, "dd/MM/yyyy")}
+                  {product.seccion}
                 </TableCell>
-
                 <TableCell sx={{ px: 0 }} align="left" colSpan={2}>
-                  {product.available ? (
-                    product.available < 20 ? (
-                      <Small bgcolor={bgSecondary}>anormal</Small>
-                    ) : (
-                      <Small bgcolor={bgPrimary}>estable</Small>
-                    )
-                  ) : (
-                    <Small bgcolor={bgError}>sobrecargado</Small>
-                  )}
-                </TableCell>
-
-                <TableCell sx={{ px: 0 }} colSpan={1}>
-                  <IconButton>
-                    <Edit color="primary" />
-                  </IconButton>
+                  {product.ubicacion}
                 </TableCell>
               </TableRow>
             ))}
@@ -142,37 +133,6 @@ export default function TopSellingTable() {
       </Box>
     </Card>
   );
-}
+};
 
-const productList = [
-  {
-    imgUrl: "/assets/images/products/iconEdificio.png",
-    name: "ud1",
-    Date: 5,
-    available: 15,
-  },
-  {
-    imgUrl: "/assets/images/products/iconEdificio.png",
-    name: "ud5",
-    Date: 10,
-    available: 30,
-  },
-  {
-    imgUrl: "/assets/images/products/iconEdificio.png",
-    name: "ud8",
-    Date: 3,
-    available: 35,
-  },
-  {
-    imgUrl: "/assets/images/products/iconEdificio.png",
-    name: "ud4",
-    Date: 6,
-    available: 0,
-  },
-  {
-    imgUrl: "/assets/images/products/iconEdificio.png",
-    name: "ud8",
-    Date: 17,
-    available: 5,
-  },
-];
+export default TopSellingTable;
