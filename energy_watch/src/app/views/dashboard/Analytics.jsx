@@ -110,30 +110,7 @@ export default function Analytics() {
             <StatCards2 />
 
             <H4>Graficos en tiempo real</H4>
-
             <LineChartGeneral height="550px" />
-            {/* Mostrando datos */}
-            <H4>Voltaje: {data.voltaje}V</H4>
-            <H4>Temperatura: {data.temperatura}°C</H4>
-            <H4>Corriente: {data.corriente}A</H4>
-
-            {/* Mostrar alerta de sobrecalentamiento si es necesario */}
-            {data.alertaTemperatura && (
-              <Card
-                sx={{
-                  px: 3,
-                  py: 2,
-                  mb: 3,
-                  backgroundColor: palette.error.light,
-                }}
-              >
-                <Title>¡Alerta de Sobrecalentamiento!</Title>
-                <SubTitle>La temperatura ha alcanzado más de 45°C.</SubTitle>
-                <SubTitle>
-                  ¡Por favor, toma acciones para evitar problemas!
-                </SubTitle>
-              </Card>
-            )}
           </Grid>
 
           <Grid item lg={4} md={4} sm={12} xs={12}>
