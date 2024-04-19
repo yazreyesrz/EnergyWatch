@@ -1,4 +1,4 @@
-import { lazy } from "react";
+import React, { lazy } from "react";
 import { Navigate } from "react-router-dom";
 
 import AuthGuard from "./auth/AuthGuard";
@@ -31,6 +31,11 @@ const AppEchartCorriente = Loadable(
 // DASHBOARD PAGE
 const Analytics = Loadable(lazy(() => import("app/views/dashboard/Analytics")));
 
+// HISTORIAL PAGE (DYNAMIC ROUTE)
+const HistorialDetail = Loadable(
+  lazy(() => import("app/views/charts/echarts/EchartHistorial"))
+);
+
 const routes = [
   {
     element: (
@@ -46,7 +51,7 @@ const routes = [
         element: <Analytics />,
         auth: authRoles.admin,
       },
-      // e-chart route
+      // e-chart routes
       {
         path: "/charts/echarts",
         element: <AppEchart />,
@@ -61,6 +66,12 @@ const routes = [
         path: "/charts/echartsC",
         element: <AppEchartCorriente />,
         auth: authRoles.editor,
+      },
+      // historial route (dynamic)
+      {
+        path: "/historial/:id",
+        element: <HistorialDetail />,
+        auth: authRoles.user, // Define los roles autorizados para acceder a esta ruta
       },
     ],
   },
