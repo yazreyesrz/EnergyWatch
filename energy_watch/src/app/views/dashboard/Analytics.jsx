@@ -54,7 +54,7 @@ export default function Analytics() {
           break;
         case "casa/temperatura":
           setData((prev) => ({ ...prev, temperatura: message }));
-          if (message > 45) {
+          if (message > 33) {
             setData((prev) => ({ ...prev, alertaTemperatura: true }));
             sendAlertEmail();
           } else {

@@ -1,11 +1,13 @@
 import { createContext, useEffect, useReducer } from "react";
 import axios from "axios";
+import io from "socket.io-client";
 import { MatxLoading } from "app/components";
 
 const initialState = {
   user: null,
   isInitialized: false,
   isAuthenticated: false,
+  socket: null, // Nuevo estado para almacenar la instancia del socket
 };
 
 const reducer = (state, action) => {
@@ -23,6 +25,8 @@ const reducer = (state, action) => {
       return { ...state, isAuthenticated: false, user: null };
     case "REGISTER":
       return { ...state, isAuthenticated: true, user: action.payload.user };
+    case "SET_SOCKET":
+      return { ...state, socket: action.payload.socket };
     default:
       return state;
   }
@@ -50,6 +54,12 @@ export const AuthProvider = ({ children }) => {
     axios.defaults.headers.common["Authorization"] = `Bearer ${token}`; // Configurar el token como default para futuras peticiones
 
     dispatch({ type: "LOGIN", payload: { user } });
+
+    // Establecer conexión WebSocket después del login
+    const socket = io("http://localhost:5555", {
+      auth: { token },
+    });
+    dispatch({ type: "SET_SOCKET", payload: { socket } });
   };
 
   const register = async (correo, nombre, contrasena) => {
@@ -67,6 +77,7 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem("jwtToken");
     localStorage.removeItem("user");
     delete axios.defaults.headers.common["Authorization"];
+    state.socket.disconnect(); // Desconectar el socket al cerrar sesión
     dispatch({ type: "LOGOUT" });
   };
 
@@ -78,6 +89,12 @@ export const AuthProvider = ({ children }) => {
       if (token && user) {
         axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
         dispatch({ type: "INIT", payload: { user } });
+
+        // Establecer conexión WebSocket al inicializar
+        const socket = io("ws://localhost:5555", {
+          auth: { token },
+        });
+        dispatch({ type: "SET_SOCKET", payload: { socket } });
       } else {
         dispatch({ type: "INIT", payload: { user: null } });
       }

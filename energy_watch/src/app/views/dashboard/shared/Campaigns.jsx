@@ -50,7 +50,7 @@ export default function Campaigns() {
           break;
         case "casa/temperatura":
           setData((prev) => ({ ...prev, temperatura: message }));
-          if (message > 45) {
+          if (message > 33) {
             setData((prev) => ({ ...prev, alertaTemperatura: true }));
           } else {
             setData((prev) => ({ ...prev, alertaTemperatura: false }));
@@ -87,7 +87,7 @@ export default function Campaigns() {
             }}
           >
             <Title>¡Alerta de Sobrecalentamiento!</Title>
-            <SubTitle>La temperatura ha alcanzado más de 45°C.</SubTitle>
+            <SubTitle>La temperatura ha alcanzado más de 33°C.</SubTitle>
             <SubTitle>
               ¡Por favor, toma acciones para evitar problemas!
             </SubTitle>
